@@ -1,0 +1,29 @@
+version: '3'
+services:
+    client:
+        build: ./client
+        environment:
+          - NODE_ENV=dev
+        command: npm run development
+        tty: true
+        working_dir: /usr/src/app
+        volumes: 
+            - ./client:/usr/src/app
+            - /usr/src/app/node_modules/
+        ports: 
+            - 3000:3000
+        container_name: bestoffer-client
+    server:
+        build: ./server
+        environment:
+          - NODE_ENV=dev
+          - ENV_PATH=.dev.env
+        command: adonis serve --dev
+        tty: true
+        working_dir: /usr/src/app
+        volumes: 
+            - ./server:/usr/src/app
+            - /usr/src/app/node_modules/
+        ports: 
+            - 3333:3333
+        container_name: bestoffer-server
