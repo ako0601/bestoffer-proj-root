@@ -21,8 +21,10 @@ services:
       - /usr/src/app/node_modules/
     ports:
       - 3000:3000
-    network_mode: host
     container_name: bestoffer-client
+    # network_mode: host
+    links:
+      - "server:local-b.bestoffer.com"
     depends_on:
       - proxy
   server:
