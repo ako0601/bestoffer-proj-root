@@ -1,18 +1,9 @@
 version: '3'
 services:
-  proxy:
-    image: jwilder/nginx-proxy
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    container_name: proxy
   client:
     build: ./client
     environment:
       - NODE_ENV=dev
-      - VIRTUAL_HOST=local-f.bestoffer.com
     command: npm run development
     tty: true
     working_dir: /usr/src/app
@@ -23,14 +14,11 @@ services:
       - 3000:3000
     network_mode: host
     container_name: bestoffer-client
-    depends_on:
-      - proxy
   server:
     build: ./server
     environment:
       - NODE_ENV=dev
       - ENV_PATH=.dev.env
-      - VIRTUAL_HOST=local-b.bestoffer.com
     command: adonis serve --dev
     tty: true
     working_dir: /usr/src/app
@@ -40,5 +28,3 @@ services:
     ports:
       - 3333:3333
     container_name: bestoffer-server
-    depends_on:
-      - proxy
